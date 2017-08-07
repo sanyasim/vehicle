@@ -20,7 +20,6 @@ class VehicleSpecial
         $this->em = $em;
     }
 
-
     /**
      * @Route(
      *     name="vehicle_special",
@@ -30,20 +29,6 @@ class VehicleSpecial
      */
     public function __invoke()
     {
-        // $car1 = new Car('bmw');
-        // // $car2 = new Car('renault');
-        // // $car3 = new Car('audi');
-
-        // $this->em->persist($car1);
-        // // $this->em->persist($car2);
-        // // $this->em->persist($car3);
-
-        // $this->em->flush();
-
-
-
-        // exit;
-
         $vehicles = [
             new Car('bmw'),
             //Car::getVehicle('renault'),
