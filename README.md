@@ -17,6 +17,11 @@ $ docker-compose up -d
 winpty docker exec apiplatform_app_1 bin/console doctrine:schema:update --force
 where apiplatform_app_1 is container name where php project runs. 
 
+# Useful links:
+http://localhost:8001/app_dev.php/myvehicle
+
+where 8001 port is local port that is configured in VirtualBox NAT settings for virtual machine (I manually needed to configure).
+
 # Implementation details.
 Doctrine single table inheritance support was used and took into account in order to impelemnt such business logic on db level.
 Several entities were impelemented that extend from main Entity\Vehicle entity.
