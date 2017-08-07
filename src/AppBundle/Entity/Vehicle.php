@@ -6,6 +6,8 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+use AppBundle\Contracts\vehicle\Vehicle as VehicleInterface;
+
 use AppBundle\Traits\vehicle\{VehicleTrait};
 
 /**
@@ -18,7 +20,7 @@ use AppBundle\Traits\vehicle\{VehicleTrait};
  * @ORM\DiscriminatorColumn(name="discr", type="string")
  * @ORM\DiscriminatorMap({"vehicle" = "Vehicle", "car" = "Car", "truck" = "Truck", "boat" = "Boat", "bike" = "Bike", "helicopter" = "Helicopter"})
  */
-class Vehicle
+class Vehicle implements VehicleInterface
 {
     use VehicleTrait;
 
