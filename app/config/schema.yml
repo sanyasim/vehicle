@@ -1,0 +1,150 @@
+# app/config/schema.yml
+# rdfa:
+#     -
+#         uri: vendor/api-platform/schema-generator/tests/data/schema.rdfa
+#         format: rdfa
+    
+rdfa:
+    -
+        uri:    tests/data/schema_3.1.rdfa
+        format: rdfa
+
+debug: true 
+
+annotationGenerators:
+    - ApiPlatform\SchemaGenerator\AnnotationGenerator\PhpDocAnnotationGenerator
+    - ApiPlatform\SchemaGenerator\AnnotationGenerator\DoctrineOrmAnnotationGenerator
+    - ApiPlatform\SchemaGenerator\AnnotationGenerator\ConstraintAnnotationGenerator
+    - ApiPlatform\SchemaGenerator\AnnotationGenerator\ApiPlatformCoreAnnotationGenerator
+    # - ApiPlatform\SchemaGenerator\AnnotationGenerator\SerializerGroupsAnnotationGenerator
+
+
+# useInterface: true
+
+# namespaces:
+#   entity: AppBundle\Entity # The default namespace for entities, following API Platform and Symfony best practices
+#   enum: AppBundle\Enum
+#   interface: AppBundle\Model
+
+
+
+# The list of types and properties we want to use
+types:
+
+    # section 1
+
+    # Parent class of Person
+    Thing:
+        properties:
+            name: ~
+            # name: { nullable: false }
+    Person:
+        # namespaces:
+        #     class: AppBundle\Entity # The default namespace for entities, following API Platform and Symfony best practices
+        #     interface: AppBundle\Model
+        properties:
+            description: ~
+            familyName: ~
+            givenName: ~
+            additionalName: ~
+            gender: ~
+            address: ~
+            birthDate: ~
+            telephone: ~
+            email: ~
+            # email: { unique: true }
+            url: ~
+            jobTitle: ~
+            image: 
+                range: URL
+
+    Comment:
+        parent: false
+        properties:
+            #parentItem: ~
+            downvoteCount: ~
+            upvoteCount: ~
+            author:
+                range: Person # PHP Schema handle relations. Here we force the type of the property to Person
+                cardinality: (*..0) # Force the cardinality of the relation
+            citation:
+                range: Text
+            comment: ~
+            commentCount: ~
+            dateCreated: ~
+            dateModified: ~
+            genre: ~
+            headline: ~
+            inLanguage:
+                range: Text
+            keywords: ~
+            position: ~
+            text: ~
+            #thumbnailUrl: ~
+            description: ~
+
+    ### section 3
+    OfferItemCondition:  # The generator will automatically guess that OfferItemCondition is subclass of Enum
+        parent: false
+        properties:
+            additionalType: ~
+            alternateName: ~
+            description: ~
+
+
+    # PostalAddress:
+    #     # Disable the generation of the class hierarchy for this type
+    #     parent: false
+    #     properties:
+    #         # Force the type of the addressCountry property to text
+    #         addressCountry: { range: "Text" }
+    #         addressLocality: ~
+    #         addressRegion: ~
+    #         postOfficeBoxNumber: ~
+    #         postalCode: ~
+    #         streetAddress: ~
+    #         email: ~  # sanya
+
+    # # section 2
+    # Book:
+    #     parent: false
+    #     properties:
+    #         isbn: ~
+    #         name: { nullable: false }
+    #         description: { nullable: false }
+    #         author: { range: Text, nullable: false }
+    #         dateCreated: { nullable: false }
+    # Review:
+    #     parent: false
+    #     properties:
+    #         reviewBody: ~
+    #         rating: { range: Integer, nullable: false } # This is a custom field that doesn't exist in the vocab
+    #         itemReviewed: { range: Book, nullable: false, cardinality: '(*..1)' }
+
+
+    
+    ### section 4
+
+    # BlogPosting:    # A type to generate a PHP entity class from, including all its properties (here this type has no specific property, they are all inherited)
+    #     parent: false
+    #     properties:
+    #         notliked: { range: Integer, nullable: false }
+    #         sharedContent: ~
+    #         articleBody: ~
+    #         articleSection: ~
+    # CreativeWork:
+    #     # abstract: true
+    #     properties:
+    #         author:
+    #             range: Person # PHP Schema handle relations. Here we force the type of the property to Person
+    #             cardinality: (*..0) # Force the cardinality of the relation
+    #         headline: ~
+    #         isFamilyFriendly: ~
+    #         datePublished: ~
+
+
+
+
+
+
+

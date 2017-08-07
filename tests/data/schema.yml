@@ -1,0 +1,390 @@
+# Example config file for the Schema Generator
+# Use the following command to regenerate entities:
+# bin/schema generate-types src/ app/config/schema.yml
+
+rdfa:
+  -
+    uri:    tests/data/schema_3.0.rdfa
+    format: rdfa
+debug: true 
+#useInterface: true
+annotationGenerators:
+    - ApiPlatform\SchemaGenerator\AnnotationGenerator\PhpDocAnnotationGenerator
+    - ApiPlatform\SchemaGenerator\AnnotationGenerator\DoctrineOrmAnnotationGenerator
+    - ApiPlatform\SchemaGenerator\AnnotationGenerator\ConstraintAnnotationGenerator
+    - ApiPlatform\SchemaGenerator\AnnotationGenerator\ApiPlatformCoreAnnotationGenerator
+
+namespaces:
+  entity: AppBundle\Entity # The default namespace for entities, following API Platform and Symfony best practices
+  enum: AppBundle\Enum
+  interface: AppBundle\Model
+
+types:                      # The list of type to generated (a PHP entity class by type will be generated)
+  BlogPosting:
+    parent: false           # It's a best practice to have entity without parents
+    properties:             # The list of properties we want to use
+      name: ~               # You can include properties from the current type and of all these parents
+      articleBody: ~
+      articleSection: ~
+      headline: ~
+      isFamilyFriendly: ~
+      datePublished: ~
+      author:
+        range: Person       # PHP Schema handle relations, here we force the type of the property to Person
+        cardinality: (*..0) # We also the cardinality of the relation
+      kevinReview:          # You can also define custom properties, not available in Schema.org
+        range: Text         # For custom properties, type must always be specified
+        cardinality: (*..0) # Using the cardinality here (not a relation) allow to deal with the nullable option
+  Person:                   # Person is a relation of the BlogPosting type (author property), relations will be automatically generated
+    parent: false
+    properties:
+      familyName: ~         # We add some common properties defined by Schema.org
+      givenName: ~
+      description: ~
+      birthDate: ~
+      deathDate: ~
+
+
+
+
+#types: # The list of type to generated (a PHP entity class by type will be generated)
+##  BlogPosting: ~  # A type to generate a PHP entity class from, including all its properties (here this type has no specific property, they are all inherited)
+##    parent: false
+##    properties:
+##      accessibilityAPI: ~
+##      about: { range: "Text" }
+##      about: { range: "Thing" }
+#  SocialMediaPosting: ~
+#      
+#  Article: # Schema.org has an inheritance system, we will configure all types of the hierarchy
+#    properties: # The list of properties we want to use
+#      articleBody: ~
+#      articleSection: ~
+#  CreativeWork:
+#    #abstract: false
+#    #doctrine:
+#    #  inheritanceMapping: '@ORM\Entity'   #"@MappedSuperclass"
+#    properties:
+#      author:
+#        range: Person # PHP Schema handle relations. Here we force the type of the property to Person
+#        #cardinality: (*..0) # Force the cardinality of the relation
+#      headline: ~
+#      isFamilyFriendly: ~
+#      datePublished: ~
+#  Person: # Person is a relation of the "CreativeWork" type (property "author"), PHP Schema will generate relations for us
+#    properties: {} # We don't want any specific property for a person except "name" inherited from Thing
+#  Thing:
+#    properties:
+#      name: ~
+
+
+
+
+
+
+#rdfa:
+#  -
+#    uri:    tests/data/schema.rdfa
+#    format: rdfa
+#debug: true
+#
+##relations:
+##  - tests/data/v1.owl
+#namespaces:
+#  entity: 'AppBundle\Entity'
+#author: "Kévin Dunglas <dunglas@gmail.com>"
+##useInterface: true
+##checkIsGoodRelations: true
+#types:
+#  Thing:
+#    properties:
+#      name: ~
+#      description: ~
+#      image: { range: ImageObject }
+#      additionalType: ~
+#  Product:
+#    properties:
+#      sku:
+#        cardinality: "(0..1)"
+#      url: ~
+#      brand: ~
+#      productID: ~
+#      releaseDate: ~
+#      offers: ~
+#      itemCondition: ~
+#      gtin13: ~
+#      gtin14: ~
+#      gtin8: ~
+#      mpn: ~
+#      color: ~
+#      depth: { range: "Text" }
+#      height: { range: "Text" }
+#      weight: { range: "Text" }
+#      width: { range: "Text" }
+#      seller: { range: "Seller" }
+#  Brand:
+#    parent: "Thing"
+#    properties:
+#      logo: { range: "ImageObject" }
+#  Seller:
+#    parent: false
+#    guessFrom: Person
+#    properties:
+#      name: ~
+#      birthDate: ~
+#  ImageObject:
+#    parent: Thing
+#    properties:
+#      caption: ~
+#  ProductModel:
+#    properties:
+#      isVariantOf: ~
+#  Offer:
+#    parent: Thing
+#    properties:
+#      acceptedPaymentMethod: ~
+#      availability: ~
+#      availabilityStarts: ~
+#      availabilityEnds: ~
+#      availableDeliveryMethod: ~
+#      category: { range: "Text" }
+#      deliveryLeadTime: ~
+#      inventoryLevel: ~
+#      itemCondition: ~
+#      price: { range: Number }
+#      priceCurrency: ~
+#      validFrom: ~
+#      validThrough: ~
+#  DeliveryChargeSpecification: { parent: false }
+#  PaymentChargeSpecification: { parent: false }
+#  OfferItemCondition: ~
+#  PaymentMethod: ~
+#  ItemAvailability: ~
+#  DeliveryMethod: ~
+#  QuantitativeValue: { parent: false }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## The PHP namespace of generated entities
+#namespaces:
+#  entity: 'AppBundle\Entity'
+## Enable DunglasApiAnnotationGenerator
+#annotationGenerators:
+#    - ApiPlatform\SchemaGenerator\AnnotationGenerator\PhpDocAnnotationGenerator
+#    - ApiPlatform\SchemaGenerator\AnnotationGenerator\DoctrineOrmAnnotationGenerator
+#    - ApiPlatform\SchemaGenerator\AnnotationGenerator\ConstraintAnnotationGenerator
+#    - ApiPlatform\SchemaGenerator\AnnotationGenerator\ApiPlatformCoreAnnotationGenerator
+## The list of types and properties we want to use
+#types:
+#  Person:
+#    parent: false
+#    properties:
+#      name: ~
+#      familyName: ~
+#      givenName: ~
+#      additionalName: ~
+#      gender: ~
+#      address: { range: PostalAddress }
+#      # Custom range and custom ORM\Column content
+#      birthDate: { range: DateTime, ormColumn: 'type="datetimetz", nullable=true, options={"comment" = "Birthdate with timezone."}' }
+#      telephone: ~
+#      email: ~
+#      jobTitle: ~
+#      # Default relation table name would be "person_organization" for all following fields, but we customize them
+#      affiliation: ~
+#      brand: { relationTableName: "person_brand"}
+#      memberOf: { range: "Organization", cardinality: (1..*), relationTableName: "person_memberof"}
+#      worksFor: { range: "Organization", cardinality: (0..*), relationTableName: "person_worksfor"}
+#      # url field is a custom one without definition, it should render error
+#      url: ~
+#      friends: { range: "Person", cardinality: (0..*) }
+#  PostalAddress:
+#    # Disable the generation of the class hierarchy for this type
+#    parent: false
+#    properties:
+#      # Force the type of the addressCountry property to text
+#      addressCountry: { range: "Text" }
+#      addressLocality: ~
+#      addressRegion: ~
+#      postOfficeBoxNumber: ~
+#      postalCode: ~
+#      streetAddress: ~
+#  Organization:
+#    parent: false
+#    properties:
+#      name: ~
+#      # Custom property with custom ORM\Column content
+#      adminCode: {range: Text, ormColumn: 'type="string", length=3, unique=true, nullable=false, options={"comment" = "A code for central administration."}' }
+#debug: true
+#rdfa:
+#  - tests/data/schema.rdfa
+#
+
+
+
+
+
+#annotationGenerators:
+#    - ApiPlatform\SchemaGenerator\AnnotationGenerator\PhpDocAnnotationGenerator
+#    - ApiPlatform\SchemaGenerator\AnnotationGenerator\DoctrineOrmAnnotationGenerator
+#    - ApiPlatform\SchemaGenerator\AnnotationGenerator\ConstraintAnnotationGenerator
+#    - ApiPlatform\SchemaGenerator\AnnotationGenerator\ApiPlatformCoreAnnotationGenerator
+#
+#namespaces:
+#  entity: 'AppBundle\Entity'
+#types:
+#  Session:
+#    vocabularyNamespace: http://purl.org/net/VideoGameOntology#
+#  Thing: ~
+#debug: true
+#rdfa:
+#  -
+#    uri:    tests/data/vgo.rdf
+#    format: ~
+#  - tests/data/schema.rdfa
+
+
+
+
+#annotationGenerators:
+#    - ApiPlatform\SchemaGenerator\AnnotationGenerator\PhpDocAnnotationGenerator
+#    - ApiPlatform\SchemaGenerator\AnnotationGenerator\DoctrineOrmAnnotationGenerator
+#    - ApiPlatform\SchemaGenerator\AnnotationGenerator\ConstraintAnnotationGenerator
+#    - ApiPlatform\SchemaGenerator\AnnotationGenerator\ApiPlatformCoreAnnotationGenerator
+#
+#
+#namespaces:
+#  entity: AppBundle\Entity # The default namespace for entities, following API Platform and Symfony best practices
+#types: # The list of type to generated (a PHP entity class by type will be generated)
+#  SocialMediaPosting: ~
+#  BlogPosting: ~ # A type to generate a PHP entity class from, including all its properties (here this type has no specific property, they are all inherited)
+#  Article: # Schema.org has an inheritance system, we will configure all types of the hierarchy
+#    properties: # The list of properties we want to use
+#      articleBody: ~
+#      articleSection: ~
+#  CreativeWork:
+#    properties:
+#      author:
+#        range: Person # PHP Schema handle relations. Here we force the type of the property to Person
+#        cardinality: (*..0) # Force the cardinality of the relation
+#      headline: ~
+#      isFamilyFriendly: ~
+#      datePublished: ~
+#  Thing:
+#    properties:
+#      name: ~
+#  Person: # Person is a relation of the "CreativeWork" type (property "author"), PHP Schema will generate relations for us
+#    properties: {} # We don't want any specific property for a person except "name" inherited from Thing
+
+
+
+
+
+
+#types: # The list of type to generated (a PHP entity class by type will be generated)
+#  SocialMediaPosting: 
+#    #parent: false
+#    properties: ~
+##      schemaVersion: ~
+##      about: ~
+#
+##      articleBody: ~
+##      articleSection: ~
+#
+#  BlogPosting:  # A type to generate a PHP entity class from, including all its properties (here this type has no specific property, they are all inherited)
+#    #parent: false
+#    properties: ~
+#  Article: # Schema.org has an inheritance system, we will configure all types of the hierarchy
+#    properties: # The list of properties we want to use
+#      articleBody: ~
+#      articleSection: ~
+#  CreativeWork:
+#    properties:
+#      author:
+#        range: Person # PHP Schema handle relations. Here we force the type of the property to Person
+#        cardinality: (*..0) # Force the cardinality of the relation
+#      headline: ~
+#      isFamilyFriendly: ~
+#      datePublished: ~
+#  Thing:
+#    properties:
+#      name: ~
+#  Person: # Person is a relation of the "CreativeWork" type (property "author"), PHP Schema will generate relations for us
+#    #parent: false
+#    properties: {} # We don't want any specific property for a person except "name" inherited from Thing
+#
+#namespaces:
+#  entity: AppBundle\Entity
+#
+#annotationGenerators:
+#    - ApiPlatform\SchemaGenerator\AnnotationGenerator\PhpDocAnnotationGenerator
+#    - ApiPlatform\SchemaGenerator\AnnotationGenerator\DoctrineOrmAnnotationGenerator
+#    - ApiPlatform\SchemaGenerator\AnnotationGenerator\ConstraintAnnotationGenerator
+#    - ApiPlatform\SchemaGenerator\AnnotationGenerator\ApiPlatformCoreAnnotationGenerator
+
+
+
+## Example config file for the Schema Generator
+## Use the following command to regenerate entities:
+## bin/schema generate-types src/ app/config/schema.yml
+#
+#types:
+#
+#  Book:
+#    parent: false
+#    properties:
+#      name: ~
+#      description: ~
+#      author:
+#        range:       Person
+#        cardinality: (*..*)
+#        relationTableName: book_author
+#      publisher:
+#        range: Organization
+#        cardinality: (*..1)
+#      genre: ~
+#      datePublished: ~
+#      illustrator:
+#        cardinality: (*..*)
+#        relationTableName: book_illustrator
+#      isbn: ~
+#      numberOfPages: ~
+#
+#  Person:
+#    parent: false
+#    properties:
+#      name: ~
+#      description: ~
+#      url: ~
+#      birthDate: ~
+#      gender: ~
+#
+#  Organization:
+#    parent: false
+#    properties:
+#      name: ~
+#      description: ~
+#      url: ~
+#
+#namespaces:
+#  entity: AppBundle\Entity
+#
+#annotationGenerators:
+#    - ApiPlatform\SchemaGenerator\AnnotationGenerator\PhpDocAnnotationGenerator
+#    - ApiPlatform\SchemaGenerator\AnnotationGenerator\DoctrineOrmAnnotationGenerator
+#    - ApiPlatform\SchemaGenerator\AnnotationGenerator\ConstraintAnnotationGenerator
+#    - ApiPlatform\SchemaGenerator\AnnotationGenerator\ApiPlatformCoreAnnotationGenerator
