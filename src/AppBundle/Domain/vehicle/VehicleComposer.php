@@ -13,7 +13,7 @@ class VehicleComposer
     *
     * @return mixed result of invocation
     */
-    public function compose($object, $method)
+    public static function compose($object, $method)
     {
         $closure = \Closure::fromCallable('\Vehicle\\' . $method);
         $closure = $closure->bindTo($object);        

@@ -11,6 +11,9 @@ use Doctrine\ORM\EntityManagerInterface;
 
 use AppBundle\Entity\{Vehicle, Car, Truck, Boat, Bike, Helicopter};
 
+use AppBundle\Domain\fuel\Fuel;
+use AppBundle\Domain\load\Load;
+
 class VehicleSpecial
 {
     private $em;
@@ -56,7 +59,7 @@ class VehicleSpecial
                 case 'kamaz':
                     $vehicle->move();
                     $vehicle->stop();
-                    $vehicle->emptyLoads();
+                    $vehicle->emptyLoads(new Load('sand'));
                     break;
                 case 'helicopter':
                     $vehicle->takeOff();
@@ -66,7 +69,7 @@ class VehicleSpecial
             }
             
             //suppose that gas is common fuel for ALL vehicles
-            $vehicle->refuel('gas');
+            $vehicle->refuel(new Fuel('gas'));
         }
 
         exit;

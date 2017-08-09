@@ -2,10 +2,12 @@
 
 namespace Tests\AppBundle\Action;
 
-use AppBundle\Util\Calculator;
 use PHPUnit\Framework\TestCase;
 
 use AppBundle\Entity\{Vehicle, Car, Truck, Boat, Bike, Helicopter};
+
+use AppBundle\Domain\fuel\Fuel;
+use AppBundle\Domain\load\Load;
 
 class VehicleSpecialTest extends TestCase
 {
@@ -40,7 +42,7 @@ class VehicleSpecialTest extends TestCase
                 case 'kamaz':
                     $vehicle->move();
                     $vehicle->stop();
-                    $vehicle->emptyLoads();
+                    $vehicle->emptyLoads(new Load('sand'));
                     break;
                 case 'helicopter':
                     $vehicle->takeOff();
@@ -50,7 +52,7 @@ class VehicleSpecialTest extends TestCase
             }
             
             //suppose that gas is common fuel for ALL vehicles
-            $vehicle->refuel('gas');
+            $vehicle->refuel(new Fuel('gas'));
         }
 
         $this->assertTrue(true);

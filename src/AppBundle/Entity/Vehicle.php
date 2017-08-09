@@ -91,6 +91,6 @@ class Vehicle implements VehicleInterface
     public function __call($method, $arguments)
     {
         $closure = VehicleComposer::compose($this, $method);
-        return $closure($arguments);
+        return $closure(...$arguments);
     }
 }
