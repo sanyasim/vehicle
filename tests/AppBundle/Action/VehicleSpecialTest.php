@@ -5,7 +5,7 @@ namespace Tests\AppBundle\Action;
 use AppBundle\Util\Calculator;
 use PHPUnit\Framework\TestCase;
 
-use AppBundle\Entity\{Car, Truck, Boat, Bike, Helicopter};
+use AppBundle\Entity\{Vehicle, Car, Truck, Boat, Bike, Helicopter};
 
 class VehicleSpecialTest extends TestCase
 {
@@ -15,12 +15,12 @@ class VehicleSpecialTest extends TestCase
     public function testVehicleSpecial($vehicles)
     {
         $vehicles = [
-            new Car('bmw'),
+            new Vehicle('bmw'),
             //Car::getVehicle('renault'),
             //Car::getVehicle()->setName('audi'),
-            new Truck('kamaz'),
-            new Boat('boat'),
-            new Helicopter('helicopter'),
+            new Vehicle('kamaz'),
+            new Vehicle('boat'),
+            new Vehicle('helicopter'),
         ];
 
         foreach ($vehicles as $vehicle) {

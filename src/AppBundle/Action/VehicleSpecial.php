@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 use Doctrine\ORM\EntityManagerInterface;
 
-use AppBundle\Entity\{Car, Truck, Boat, Bike, Helicopter};
+use AppBundle\Entity\{Vehicle, Car, Truck, Boat, Bike, Helicopter};
 
 class VehicleSpecial
 {
@@ -30,12 +30,12 @@ class VehicleSpecial
     public function __invoke()
     {
         $vehicles = [
-            new Car('bmw'),
+            new Vehicle('bmw'),
             //Car::getVehicle('renault'),
             //Car::getVehicle()->setName('audi'),
-            new Truck('kamaz'),
-            new Boat('boat'),
-            new Helicopter('helicopter'),
+            new Vehicle('kamaz'),
+            new Vehicle('boat'),
+            new Vehicle('helicopter'),
         ];
 
         foreach ($vehicles as $vehicle) {

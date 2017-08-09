@@ -2,6 +2,6 @@
 
 namespace AppBundle\Contracts\vehicle;
 
-interface Vehicle extends CanRefuel
-{
+interface Bike extends CanMove, CanStop
+{    
 }

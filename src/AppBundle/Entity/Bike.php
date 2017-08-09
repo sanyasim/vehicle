@@ -10,6 +10,8 @@ use AppBundle\Entity\Vehicle;
 
 use AppBundle\Traits\vehicle\{BikeTrait};
 
+use AppBundle\Contracts\vehicle\Bike as BikeInterface;
+
 /**
  * Bike entity
  *
@@ -17,7 +19,7 @@ use AppBundle\Traits\vehicle\{BikeTrait};
  * @ORM\Entity
  *
  */
-class Bike extends Vehicle
+class Bike extends Vehicle implements BikeInterface
 {
     use BikeTrait;
 }

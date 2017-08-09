@@ -2,6 +2,7 @@
 
 namespace AppBundle\Contracts\vehicle;
 
-interface Vehicle extends CanRefuel
+interface CanMove
 {
+    public function move();
 }

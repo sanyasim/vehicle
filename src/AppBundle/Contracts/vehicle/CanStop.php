@@ -2,6 +2,7 @@
 
 namespace AppBundle\Contracts\vehicle;
 
-interface Vehicle extends CanRefuel
+interface CanStop
 {
+    public function stop();
 }

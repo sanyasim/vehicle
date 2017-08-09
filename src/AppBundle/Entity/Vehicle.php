@@ -7,8 +7,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use AppBundle\Contracts\vehicle\Vehicle as VehicleInterface;
+use AppBundle\Traits\vehicle\VehicleTrait;
 
-use AppBundle\Traits\vehicle\{VehicleTrait};
+use AppBundle\Domain\vehicle\VehicleComposer;
 
 /**
  * Vehicle entity
@@ -51,7 +52,7 @@ class Vehicle implements VehicleInterface
      * Factory
      *
      * @param mixed $params
-     * @return $this      
+     * @return $this
      */
     public static function getVehicle(...$params)
     {
@@ -82,4 +83,14 @@ class Vehicle implements VehicleInterface
         return $this->name;
     }
 
+    /**
+     * Composes methods dynamically
+     *
+     * @return mixed dynamic method call return value
+     */
+    public function __call($method, $arguments)
+    {
+        $closure = VehicleComposer::compose($this, $method);
+        return $closure($arguments);
+    }
 }
