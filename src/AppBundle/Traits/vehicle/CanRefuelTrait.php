@@ -4,10 +4,10 @@ namespace AppBundle\Traits\vehicle;
 
 trait CanRefuelTrait
 {
-    public function refuel(string $gas) 
+    public function refuel(\AppBundle\Domain\fuel\Fuel $object) 
 	{
 		$name = $this->getName();
-		echo  "\n" . $name . ' refuel ' . $gas;
+		echo  "\n" . $name . ' refuel ' . $object;
 	}
 
 }

@@ -38,6 +38,11 @@ class Vehicle implements VehicleInterface
     private $name;
 
     /**
+     * AppBundle\Entity\Vehicle $prototype Prototype instance
+     */
+    private $_prototype;
+
+    /**
      * Constructor
      *
      * @param string $name
@@ -78,19 +83,25 @@ class Vehicle implements VehicleInterface
      *
      * @return string
      */
-    public function getName():string
+    public function getName()
     {
         return $this->name;
     }
 
     /**
-     * Composes methods dynamically
+     * Compose method dynamically by means of prototype pattern implementation. 
+     * Alternatively function composition is supported also
      *
-     * @return mixed dynamic method call return value
+     * @return mixed result of method call
      */
     public function __call($method, $arguments)
     {
-        $closure = VehicleComposer::compose($this, $method);
-        return $closure(...$arguments);
+        if (empty($this->_prototype)) {
+            $this->_prototype = VehicleComposer::getPrototype($this->name);
+        }
+        return $this->_prototype->$method(...$arguments);
+
+        // $closure = VehicleComposer::compose($this, $method);
+        // return $closure(...$arguments);
     }
 }

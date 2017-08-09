@@ -12,11 +12,11 @@ trait CanEmptyLoadsTrait
      */
     private $loadMax;
 
-	public function emptyLoads() 
+	public function emptyLoads(\AppBundle\Domain\load\Load $object) 
 	{
 		$name = $this->getName();
 
-		echo "\n" . $name . ' emptied loads';
+		echo "\n" . $name . ' emptied loads' . $object;
 	}
 
 	/**
