@@ -11,73 +11,169 @@ use AppBundle\Domain\load\Load;
 
 class VehicleTest extends TestCase
 {
+    public function vehiclesProvider()
+    {
+        $vehicles = [
+            ['bmw', new Vehicle('bmw')],
+            ['boat', new Vehicle('boat')],
+            ['kamaz', new Vehicle('kamaz')],
+            ['helicopter', new Vehicle('helicopter')],
+        ];
+
+        return $vehicles;
+    }
+
+    /**
+     * @dataProvider vehiclesProvider
+     *
+     */
+    public function testVehicleHasName($name, $vehicle)
+    {
+        $this->assertTrue($name == $vehicle->getName());
+    }
+
+    /**
+     * @dataProvider vehiclesProvider
+     *
+     */
+    public function testRefuel($name, $vehicle)
+    {
+        $object = new Fuel('gas');
+        $vehicle->refuel($object);
+
+        $this->expectOutputString("\n" . $vehicle->getName() . ' refuel gas');
+    }
+
+
+    // CAR /////////////////////////////////////////////////
+    public function testMove()
+    {
+        $vehicle = new Vehicle('bmw');
+        $vehicle->move();
+
+        $this->expectOutputString($vehicle->getName() . ' moveing');
+
+        return $vehicle;
+    }
+
+     /**
+     * @depends testMove 
+     *
+     */
+    public function testMusicOn($vehicle)
+    {
+        $vehicle->musicOn();
+
+        $this->expectOutputString($vehicle->getName() . ' music switched on');
+
+        return $vehicle;
+    }   
+
+    /**
+     * @depends testMove 
+     *
+     */
+    public function testStopAfterMove($vehicle)
+    {
+        $vehicle->stop();
+
+        $this->expectOutputString($vehicle->getName() . ' stopped');
+
+        return $vehicle;
+    }
+
+
+    // BOAT /////////////////////////////////////////////////
     public function testSwim()
     {
         $vehicle = new Vehicle('boat');
         $vehicle->swim();
+        $this->expectOutputString($vehicle->getName() . ' swimming');
 
-        $this->assertTrue('boat' == $vehicle->getName());
-        $this->expectOutputString('boat swimming');
+        return $vehicle;
     }
 
-    public function testRefuel()
+    /**
+     * @depends testSwim 
+     *
+     */
+    public function testStopAfterSwim($vehicle)
+    {
+        $vehicle->stop();
+        $this->expectOutputString($vehicle->getName() . ' stopped');
+    }
+
+
+
+    // TRUCK ////////////////////////////////////////
+
+    public function testMoveTruck()
+    {
+        $vehicle = new Vehicle('kamaz');
+        $vehicle->move();
+
+        $this->expectOutputString($vehicle->getName() . ' moveing');
+
+        return $vehicle;
+    }
+
+    /**
+     * @depends testMoveTruck 
+     *
+     */
+    public function testStopAfterMoveTruck($vehicle)
+    {
+        $vehicle->stop();
+        $this->expectOutputString($vehicle->getName() . ' stopped');
+
+        return $vehicle;
+    }
+
+    /**
+     * @depends testStopAfterMoveTruck 
+     *
+     */
+    public function testEmptyLoads($vehicle)
+    {
+        $load = new Load('sand');
+        $vehicle->emptyLoads($load);
+
+        $this->expectOutputString($vehicle->getName() . ' emptyLoads ' . $load);
+    }
+
+
+
+
+    // PLANE ///////////////////////////////////////////////
+    public function testTakeOff()
     {
         $vehicle = new Vehicle('helicopter');
+        $vehicle->takeOff();
+        $this->expectOutputString($vehicle->getName() . ' took off');
 
-        $this->assertTrue('helicopter' == $vehicle->getName());
+        return $vehicle;
+    }    
+    
+    /**
+     * @depends testTakeOff 
+     *
+     */
+    public function testFly($vehicle)
+    {
+        $vehicle->fly();
+        $this->expectOutputString($vehicle->getName() . ' flying');
 
-        $object = new Fuel('gas');
-
-        $vehicle->refuel($object);
-        $this->expectOutputString("\n" . 'helicopter refuel gas');
+        return $vehicle;
     }
 
     /**
-     * @dataProvider moveProvider
+     * @depends testFly
+     *
      */
-    public function testMove(string $name)
+    public function testLanding($vehicle)
     {
-        $vehicle = new Vehicle($name);
-        $vehicle->move();
-
-        $this->assertTrue($name == $vehicle->getName());
-        $this->expectOutputString($name . ' moveing');
+        $vehicle->landing();
+        $this->expectOutputString($vehicle->getName() . ' landing');
     }
 
-    public function moveProvider()
-    {
-        $names = [
-            'bmw',
-            'kamaz',
-            'harley-davidson',
-        ];
-
-        return [
-            $names,
-        ];
-    }
-
-    /**
-     * @dataProvider moveWrongVehicleProvider
-     */
-    public function testMoveWrongVehicle(string $name)
-    {
-        $vehicle = new Vehicle($name);
-        $vehicle->move();
-
-        $this->assertTrue($name == $vehicle->getName());
-        $this->expectOutputString('');
-    }
-
-    public function moveWrongVehicleProvider()
-    {
-        $names = [
-            'boat',
-            'helicopter',
-        ];
-
-        return [
-            $names,
-        ];
-    }
 }

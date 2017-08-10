@@ -11,9 +11,6 @@ use AppBundle\Domain\load\Load;
 
 class VehicleSpecialTest extends TestCase
 {
-    /**
-     * @dataProvider vehicleProvider
-     */
     public function testVehicleSpecial($vehicles)
     {
         $vehicles = [
@@ -56,22 +53,6 @@ class VehicleSpecialTest extends TestCase
         }
 
         $this->assertTrue(true);
-    }
-
-    public function vehicleProvider()
-    {
-        // $car1 = factory(Car::class)->make();
-        // $truck1 = factory(Truck::class)->make();
-
-        $vehicles = [
-            new Car('bmw'),
-            Car::getVehicle('renault'),
-            Car::getVehicle()->setName('audi'),
-        ];
-
-        return [
-            $vehicles,
-        ];
     }
 
 }
