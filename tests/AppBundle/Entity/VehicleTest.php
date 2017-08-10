@@ -101,6 +101,8 @@ class VehicleTest extends TestCase
     {
         $vehicle->stop();
         $this->expectOutputString($vehicle->getName() . ' stopped');
+
+        return $vehicle;
     }
 
 
@@ -139,6 +141,8 @@ class VehicleTest extends TestCase
         $vehicle->emptyLoads($load);
 
         $this->expectOutputString($vehicle->getName() . ' emptyLoads ' . $load);
+
+        return $vehicle;
     }
 
 
@@ -174,6 +178,25 @@ class VehicleTest extends TestCase
     {
         $vehicle->landing();
         $this->expectOutputString($vehicle->getName() . ' landing');
+        
+        return $vehicle;
+    }
+
+     /**
+     * @depends testStopAfterMove
+     * @depends testStopAfterSwim
+     * @depends testEmptyLoads
+     * @depends testLanding
+     *
+     */
+    public function testRefuelAfterRunning($vehicle1, $vehicle2, $vehicle3, $vehicle4)
+    {
+        $object = new Fuel('gas');
+
+        $vehicle1->refuel($object);
+        $vehicle2->refuel($object);
+        $vehicle3->refuel($object);
+        $vehicle4->refuel($object);        
     }
 
 }

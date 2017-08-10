@@ -11,7 +11,7 @@ use AppBundle\Domain\load\Load;
 
 class VehicleSpecialTest extends TestCase
 {
-    public function testVehicleSpecial($vehicles)
+    public function testVehicleSpecial()
     {
         $vehicles = [
             new Vehicle('bmw'),
